@@ -1,32 +1,42 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="app" class="Site">
+    <Header/>
+    <span style="padding-bottom: 30px"></span>
+    <main class="Site-content container">
+      <router-view/>
+    </main>
+    <Footer/>
   </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "~bootstrap/scss/bootstrap-grid";
+@import "~bulma/css/bulma.min.css";
+@import "~bulma-extensions/dist/css/bulma-extensions.min.css";
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-#nav {
-  padding: 30px;
+.Site-content {
+  flex: 1;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.space-top {
+  padding-top: 50px;
 }
 </style>
+<script>
+  import Vue from "vue"
+  import Header from "./components/includes/Header";
+  import Footer from "./components/includes/Footer";
+  import BulmaExtension from "bulma-extensions/dist/js/bulma-extensions.min"
+  Vue.use(BulmaExtension);
+  export default {
+    components: {
+      Footer,
+      Header,
+    }
+  }
+</script>

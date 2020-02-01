@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+Vue.prototype.$hostName = "https://127.0.0.1:8000/api";
 
 new Vue({
   router,
