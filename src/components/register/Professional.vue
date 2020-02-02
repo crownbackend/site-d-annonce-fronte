@@ -118,6 +118,7 @@
                         <div class="field">
                             <label class="label" for="password">Mot de passe</label>
                             <div class="control">
+                                <i class="far fa-eye" id="Bloc1" @click="showPassword"></i>
                                 <input id="password" class="input" type="password" v-model="password" v-on:keyup="verifyPassword">
                             </div>
                             <p class="help is-danger">{{passwordMessageError}}</p>
@@ -198,10 +199,20 @@
                 }
             },
             sendForm() {
-              console.log('form good')
+              UserApi.registrationProfessional(this.civility, this.firstName, this.lastName,this.company,
+                                               this.siret, this.rubric, this.address, this.city,
+                                               this.telephone, this.email, this.password)
+                  .then(response => {
+                      if(response.data.created === 1) {
+                          this.$router.push('/')
+                      }
+                  })
+                  .catch(error => {
+                      alert(error.response)
+                  })
             },
             verifyLastName() {
-                if(this.lastName.length < 2) {
+                if(this.lastName && this.lastName.length < 2) {
                     this.lastNameMessageError = "Le Nom est trop court. Veuillez saisir au moins 2 caractères.\n"
                     this.lastNameGood = false
                 } else {
@@ -210,7 +221,7 @@
                 }
             },
             verifyFirstName() {
-                if(this.firstName.length < 2) {
+                if(this.firstName && this.firstName.length < 2) {
                     this.firstNameMessageError = "Le prénom est trop court. Veuillez saisir au moins 2 caractères.\n"
                     this.firstNameGood = false
                 } else {
@@ -219,7 +230,7 @@
                 }
             },
             verifyCompany() {
-                if(this.company.length < 2) {
+                if(this.company && this.company.length < 2) {
                     this.companyMessageError = "Le nom de votre société est trop court. Veuillez saisir au moins 2 caractères.\n"
                     this.companyGood = false
                 } else {
@@ -228,7 +239,7 @@
                 }
             },
             verifySiret() {
-                if(!this.siretValid(this.siret)) {
+                if(this.siret && !this.siretValid(this.siret)) {
                     this.siretMessageError = "Le numéro de Siret est incorrect. Il doit contenir 14 chiffres."
                     this.siretGood = false
                 } else {
@@ -246,7 +257,7 @@
                 }
             },
             verifyAddress() {
-                if(this.address.length < 2) {
+                if(this.address && this.address.length < 2) {
                     this.addressMessageError = "L’adresse de votre société est trop court. Veuillez saisir au moins 2 caractères.\n"
                     this.addressGood = false
                 } else {
@@ -255,7 +266,7 @@
                 }
             },
             verifyCity() {
-                if(this.city.length < 1) {
+                if(this.city && this.city.length < 1) {
                     this.cityMessageError = "Veuillez saisir une ville ou un code postal.\n"
                     this.cityGood = false
                     this.cityItems = null
@@ -276,7 +287,7 @@
                 }
             },
             verifyNumber() {
-                if(this.numberValid(this.telephone) === 1) {
+                if(this.telephone && this.numberValid(this.telephone) === 1) {
                     this.telephoneMessageError = null
                     this.telephoneGood = true
                 } else {
@@ -340,7 +351,7 @@
                     // et enfin le dernier chiffre est une clef de LUHN.
                     let somme = 0;
                     let tmp;
-                    for (var cpt = 0; cpt<siret.length; cpt++) {
+                    for (let cpt = 0; cpt<siret.length; cpt++) {
                         if ((cpt % 2) == 0) { // Les positions impaires : 1er, 3è, 5è, etc...
                             tmp = siret.charAt(cpt) * 2; // On le multiplie par 2
                             if (tmp > 9)

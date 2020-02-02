@@ -2,6 +2,7 @@ import axios from "axios";
 import Vue from "vue";
 
 class UserApi {
+
     getCites(city) {
         this.city = city
         const formData = new FormData()
@@ -33,13 +34,43 @@ class UserApi {
         this.email = email
         this.password = password
         this.date = date
-        const userParticular = new FormData();
-        userParticular.append('username', this.username)
-        userParticular.append('email', this.email)
-        userParticular.append('password', this.password)
-        userParticular.append('date', this.date)
-        userParticular.append('particular', "1")
-        return axios.post(Vue.prototype.$hostName+"/register/user/particular", userParticular)
+        const formData = new FormData();
+        formData.append('username', this.username)
+        formData.append('email', this.email)
+        formData.append('password', this.password)
+        formData.append('date', this.date)
+        return axios.post(Vue.prototype.$hostName+"/register/user/particular", formData)
+    }
+
+    registrationProfessional(civility, firstName, lastName,
+                             company, siret, rubric, address,
+                             city, telephone, email, password) {
+        this.civility = civility
+        this.firstName = firstName
+        this.lastName = lastName
+        this.company = company
+        this.siret = siret
+        this.rubric = rubric
+        this.address = address
+        this.city = city
+        this.telephone = telephone
+        this.email = email
+        this.password = password
+
+        const formData = new FormData();
+        formData.append("civility", civility)
+        formData.append("firstName", firstName)
+        formData.append("lastName", lastName)
+        formData.append("company", company)
+        formData.append("siret", siret)
+        formData.append("rubric", rubric)
+        formData.append("address", address)
+        formData.append("city", city)
+        formData.append("telephone", telephone)
+        formData.append("email", email)
+        formData.append("password", password)
+
+        return axios.post(Vue.prototype.$hostName+"/register/user/professional", formData)
     }
 }
 
