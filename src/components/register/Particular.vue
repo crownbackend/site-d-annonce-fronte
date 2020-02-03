@@ -91,7 +91,7 @@
                 UserApi.registerParticular(this.username, this.email, this.password, this.date)
                 .then(response => {
                     if(response.data.created === 1) {
-                        this.$router.push('/')
+                        this.$router.push({path: "/inscription/success"})
                     }
                 })
                 .catch(error => {

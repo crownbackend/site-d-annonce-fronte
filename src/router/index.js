@@ -4,6 +4,7 @@ import Index from "../components/Index";
 import Register from "../components/register/Register";
 import Particular from "../components/register/Particular";
 import Professional from "../components/register/Professional";
+import RegisteSuccess from "../components/register/RegisteSuccess";
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,13 @@ const routes = [
     path: '/inscription/professionnelle',
     name: "professional",
     component: Professional
+  },
+  {
+    path: '/inscription/success',
+    name: "successRegister",
+    component: RegisteSuccess
   }
+
 ]
 
 const router = new VueRouter({

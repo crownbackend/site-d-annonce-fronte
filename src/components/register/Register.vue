@@ -91,6 +91,10 @@ export default {
 </script>
 
 <style>
+    .space-top {
+        padding-top: 50px;
+    }
+
     @media screen and (max-width: 768px) {
        .dekstop {
            display: none;

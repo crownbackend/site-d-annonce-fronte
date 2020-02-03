@@ -204,7 +204,7 @@
                                                this.telephone, this.email, this.password)
                   .then(response => {
                       if(response.data.created === 1) {
-                          this.$router.push('/')
+                          this.$router.push({path: "/inscription/success"})
                       }
                   })
                   .catch(error => {
