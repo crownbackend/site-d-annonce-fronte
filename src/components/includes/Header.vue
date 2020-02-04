@@ -57,13 +57,17 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="buttons">
+
+                                <a class="button is-primary" v-if="isLoggedIn" @click="logout">
+                                    Se déconnecter
+                                </a>
+                                <div class="buttons" v-else>
                                     <router-link class="button is-primary" to="/inscription">
                                         <strong>Inscription</strong>
                                     </router-link>
-                                    <a class="button is-light">
+                                    <router-link to="/mon-compte/connexion" class="button is-light">
                                         Connexion
-                                    </a>
+                                    </router-link>
                                 </div>
                             </div>
                         </div>
@@ -104,6 +108,17 @@
                 }
 
             });
+        },
+        computed: {
+            isLoggedIn(){ return this.$store.getters.isLoggedIn}
+        },
+        methods: {
+            logout: function () {
+                this.$store.dispatch('logout')
+                    .then(() => {
+                        this.$router.push({name: "home"})
+                    })
+            },
         }
     }
 </script>

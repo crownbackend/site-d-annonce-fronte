@@ -5,6 +5,8 @@ import Register from "../components/register/Register";
 import Particular from "../components/register/Particular";
 import Professional from "../components/register/Professional";
 import RegisteSuccess from "../components/register/RegisteSuccess";
+import Login from "../components/security/Login";
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -32,7 +34,15 @@ const routes = [
   {
     path: '/inscription/success',
     name: "successRegister",
-    component: RegisteSuccess
+    component: RegisteSuccess,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/mon-compte/connexion',
+    name: "login",
+    component: Login
   }
 
 ]
@@ -40,7 +50,19 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router
