@@ -29,9 +29,11 @@
                             Mot de passe oublier
                         </a>
                     </div>
+                    <div class="error" v-if="errorMessage">{{errorMessage}}</div>
+                    <br>
                     <div class="field">
                         <p class="control">
-                            <button class="button is-fullwidth is-primary">
+                            <button class="button is-fullwidth is-primary" v-bind:class="{'is-loading': loading}" >
                                 Se connecter
                             </button>
                         </p>
@@ -50,23 +52,59 @@
 </template>
 
 <script>
+
+//    import AuthUser from "../../services/AuthUser";
+
     export default {
         name: "Login",
         data() {
             return {
                 email: null,
-                password: null
+                password: null,
+                loading: false,
+                errorMessage: null
             }
         },
         methods: {
             login() {
                 let email = this.email;
                 let password = this.password;
-                this.$store
-                    .dispatch("login", { email, password })
-                    .then(() => this.$router.push("/"))
-                    .catch(err => console.log(err));
-            }
+
+                if(this.validEmail(email) && this.password_check(password) === 1) {
+                    this.loading = true
+                    this.$store
+                        .dispatch("login", { email, password }, this.loading)
+                        .then(() => {
+                            this.$router.push("/")
+                            this.loading = false
+                        })
+                        .catch(err =>  {
+                            if(err.response.status === 401) {
+                                this.errorMessage = "Votre identifiant ou mot de passe est incorrect."
+                                this.loading = false
+                            } else {
+                                this.errorMessage = "Erreur serveur veuillez recommencé plus tard."
+                                this.loading = false
+                            }
+                        });
+                } else {
+                    this.errorMessage = "Votre identifiant ou mot de passe est incorrect."
+                }
+            },
+            validEmail(email) {
+                let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            },
+            password_check(pass) {
+                let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{8,50}$/;
+                if (regex.exec(pass) == null) {
+                    return 0;
+                }
+                else {
+                    return 1
+                }
+            },
         }
     }
 </script>
+

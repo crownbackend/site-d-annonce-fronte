@@ -26,6 +26,16 @@
 .space-top {
   padding-top: 50px;
 }
+
+  .error {
+    padding: 0.8rem;
+    margin-top: 0.8rem;
+    display: block;
+    background: #ef2e55;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    color: #fff;
+  }
 </style>
 <script>
   import Vue from "vue"
@@ -39,4 +49,5 @@
       Header,
     },
   }
+
 </script>
