@@ -72,6 +72,11 @@ class UserApi {
 
         return axios.post(Vue.prototype.$hostName+"/register/user/professional", formData)
     }
+
+    confirmUser(token) {
+        this.token = token
+        return axios.get(Vue.prototype.$hostName+"/register/confirm/account/"+token)
+    }
 }
 
 export default new UserApi;

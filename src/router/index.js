@@ -7,6 +7,8 @@ import Professional from "../components/register/Professional";
 import RegisteSuccess from "../components/register/RegisteSuccess";
 import Login from "../components/security/Login";
 import store from '../store/index'
+import ConfirmAccount from "../components/register/ConfirmAccount";
+import Error404 from "../components/Error404";
 
 Vue.use(VueRouter)
 
@@ -15,6 +17,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Index
+  },
+  {
+    path: "*",
+    name: "error404",
+    component: Error404
   },
   {
     path: '/inscription',
@@ -43,6 +50,11 @@ const routes = [
     path: '/mon-compte/connexion',
     name: "login",
     component: Login
+  },
+  {
+    path: '/register/after-register/verification/:token',
+    name: "verifyToken",
+    component: ConfirmAccount
   }
 
 ]

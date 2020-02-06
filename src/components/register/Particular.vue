@@ -90,9 +90,10 @@
             sendForm() {
                 UserApi.registerParticular(this.username, this.email, this.password, this.date)
                 .then(response => {
-                    if(response.data.created === 1) {
-                        this.$router.push({path: "/inscription/success"})
-                    }
+                    // if(response.data.created === 1) {
+                    //     this.$router.push({path: "/inscription/success"})
+                    // }
+                    console.log(response)
                 })
                 .catch(error => {
                     alert(error.response)
