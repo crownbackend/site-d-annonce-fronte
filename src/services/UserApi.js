@@ -77,6 +77,10 @@ class UserApi {
         this.token = token
         return axios.get(Vue.prototype.$hostName+"/register/confirm/account/"+token)
     }
+
+    infoUser() {
+        return axios.get(Vue.prototype.$hostName+"/user/profile/information")
+    }
 }
 
 export default new UserApi;

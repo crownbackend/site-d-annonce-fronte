@@ -74,18 +74,36 @@
                     this.loading = true
                     this.$store
                         .dispatch("login", { email, password }, this.loading)
-                        .then(() => {
-                            this.$router.push("/")
-                            this.loading = false
+                        .then(response => {
+                            if(response.data.enable === 0) {
+                                this.errorMessage = "Votre compte na pas encore été activé."
+                                this.loading = false
+                            } else if(response.data.notAccount === 0) {
+                                this.errorMessage = "Utilisateur non trouvé veuillez vous créer un compte."
+                                this.loading = false
+                            } else if(response.data.errorLogin === 0) {
+                                this.errorMessage = "Votre identifiant ou mot de passe est incorrect."
+                                this.loading = false
+                            } else {
+                                this.$router.push('/')
+                                this.loading = false
+                            }
                         })
                         .catch(err =>  {
-                            if(err.response.status === 401) {
+                            if(err.response.data.enable === 0) {
+                                this.errorMessage = "Votre compte na pas encore été activé."
+                                this.loading = false
+                            } else if(err.response.data.notAccount === 0) {
+                                this.errorMessage = "Utilisateur non trouvé veuillez vous créer un compte."
+                                this.loading = false
+                            } else if(err.response.data.errorLogin === 0) {
                                 this.errorMessage = "Votre identifiant ou mot de passe est incorrect."
                                 this.loading = false
                             } else {
                                 this.errorMessage = "Erreur serveur veuillez recommencé plus tard."
                                 this.loading = false
                             }
+
                         });
                 } else {
                     this.errorMessage = "Votre identifiant ou mot de passe est incorrect."

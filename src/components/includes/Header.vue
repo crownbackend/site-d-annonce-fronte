@@ -1,7 +1,5 @@
 <template>
     <div>
-
-
         <div class="navbar-menu" id="navMenu">
             <!-- navbar-start, navbar-end... -->
         </div>
@@ -22,10 +20,10 @@
 
                     <div id="navbarBasicExample" class="navbar-menu">
                         <div class="navbar-start">
-                            <a class="navbar-item">
+                            <router-link :to="{name: 'addAdvertisement'}" class="navbar-item">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 Déposer une annonce
-                            </a>
+                            </router-link>
 
                             <a class="navbar-item">
                                 <i class="fas fa-search-plus"></i>
@@ -36,31 +34,38 @@
 
                         <div class="navbar-end">
                             <div class="navbar-item">
-                                <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-item" v-if="isLoggedIn">
+                                    Mes recherches
+                                    <i class="fas fa-bell"></i>
+                                </a>
+                                <a class="navbar-item" v-if="isLoggedIn">
+                                    Favoris
+                                    <i class="fas fa-heart"></i>
+                                </a>
+                                <a class="navbar-item" v-if="isLoggedIn">
+                                    Messages
+                                    <i class="fas fa-comments"></i>
+                                </a>
+                                <div class="navbar-item has-dropdown is-hoverable" v-if="isLoggedIn">
                                     <a class="navbar-link">
-                                        More
+                                        {{username}}
+                                        <i class="fa fa-user" aria-hidden="true"></i>
                                     </a>
 
                                     <div class="navbar-dropdown">
                                         <a class="navbar-item">
-                                            About
+                                           Mes annonces
                                         </a>
                                         <a class="navbar-item">
-                                            Jobs
-                                        </a>
-                                        <a class="navbar-item">
-                                            Contact
+                                            Mon compte
                                         </a>
                                         <hr class="navbar-divider">
-                                        <a class="navbar-item">
-                                            Report an issue
+                                        <a class="navbar-item" @click="logout">
+                                            Se déconnecter
                                         </a>
                                     </div>
-                                </div>
 
-                                <a class="button is-primary" v-if="isLoggedIn" @click="logout">
-                                    Se déconnecter
-                                </a>
+                                </div>
                                 <div class="buttons" v-else>
                                     <router-link class="button is-primary" to="/inscription">
                                         <strong>Inscription</strong>
@@ -80,8 +85,14 @@
 </template>
 
 <script>
+
     export default {
         name: "Header",
+        data() {
+            return {
+                username: null
+            }
+        },
         mounted() {
             document.addEventListener('DOMContentLoaded', () => {
 
@@ -108,9 +119,14 @@
                 }
 
             });
+            if(localStorage.getItem("user")) {
+                this.username = localStorage.getItem("user")
+            }
         },
         computed: {
-            isLoggedIn(){ return this.$store.getters.isLoggedIn}
+            isLoggedIn(){
+                return this.$store.getters.isLoggedIn
+            }
         },
         methods: {
             logout: function () {
@@ -126,7 +142,9 @@
 <style>
     .header {
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
-
+    }
+    .navbar-item {
+        font-size: 0.9rem
     }
 
 </style>

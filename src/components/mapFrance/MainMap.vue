@@ -3,10 +3,10 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                 <div class="buttons">
-                    <button class="button is-fullwidth is-primary">
+                    <router-link :to="{name: 'addAdvertisement'}" class="button is-fullwidth is-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                         Déposer une annonce
-                    </button>
+                    </router-link>
                 </div>
                 <div class="buttons">
                     <button class="button is-fullwidth is-valid">
@@ -19,27 +19,9 @@
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-2">
                 <div class="pull-right" style="padding-top: 30px;" id="hide_region">
                     <ul style="list-style: none;">
-
-                        <li>
-                            <a href="">region</a>
+                        <li v-for="region in regions" v-bind:key="region.id">
+                            <router-link :to="{ name: 'indexAdvertisement', params: { region: region.slug }}">{{region.name}}</router-link>
                         </li>
-
-                        <li>
-                            <a href="">hello</a>
-                        </li><li>
-                        <a href="">region</a>
-                    </li>
-
-                        <li>
-                            <a href="">hello</a>
-                        </li><li>
-                        <a href="">region</a>
-                    </li>
-
-                        <li>
-                            <a href="">hello</a>
-                        </li>
-
                     </ul>
                 </div>
             </div>
@@ -60,9 +42,25 @@
 
 <script>
     import Map from "./Map";
+    import RegionApi from "../../services/RegionApi";
     export default {
         name: "MainMap",
-        components: {Map}
+        data() {
+          return {
+              regions: []
+          }
+        },
+        components: {Map},
+        mounted() {
+            RegionApi.getRegion()
+            .then(response => {
+                console.log(response)
+                this.regions = response.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        },
     }
 </script>
 
