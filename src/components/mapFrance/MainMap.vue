@@ -18,9 +18,13 @@
             <Map/>
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-2">
                 <div class="pull-right" style="padding-top: 30px;" id="hide_region">
-                    <ul style="list-style: none;">
-                        <li v-for="region in regions" v-bind:key="region.id">
+                    <ul class="regions-list">
+                        <li v-for="region in regions" v-bind:key="region.id" class="region-item">
                             <router-link :to="{ name: 'indexAdvertisement', params: { region: region.slug }}">{{region.name}}</router-link>
+                        </li>
+                        <br>
+                        <li v-for="department in departments" v-bind:key="department.id" class="region-item">
+                            <router-link :to="{ name: 'indexAdvertisement', params: { region: department.slug }}">{{department.name}}</router-link>
                         </li>
                     </ul>
                 </div>
@@ -29,11 +33,15 @@
         <br>
         <br>
         <div id="select_region">
-            <div class="select is-medium">
-                <select>
-                    <option>CHOISIR</option>
-                    <option>Select dropdown</option>
-                    <option>With options</option>
+            <div class="select is-fullwidth">
+                <select v-on:change="changeRegion">
+                    <option>Choisissez une région</option>
+                    <option :value="region.id" :data-region="region.slug" v-for="region in regions" v-bind:key="region.id">
+                        {{region.name}}
+                    </option>
+                    <option :value="department.id" :data-region="department.slug" v-for="department in departments" v-bind:key="department.id">
+                        {{department.name}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -47,23 +55,38 @@
         name: "MainMap",
         data() {
           return {
-              regions: []
+              regions: [],
+              departments: [],
           }
         },
         components: {Map},
         mounted() {
             RegionApi.getRegion()
             .then(response => {
-                console.log(response)
-                this.regions = response.data
+                this.regions = response.data.regions
+                this.departments = response.data.departments
+                this.regions.splice(-1, 1)
+                this.departments.splice(-2, 2)
             })
-            .catch(err => {
-                console.log(err)
+            .catch(() => {
+                alert("problème serveur veuillez réssayer plus tard")
             })
         },
+        methods: {
+            changeRegion(event) {
+                let data = document.querySelector('[value="'+event.target.value+'"]')
+                let region = data.getAttribute("data-region")
+                this.$router.push({path:'/annonces/offres/' + region })
+            }
+        }
     }
 </script>
 
 <style>
-
+    .regions-list {
+        list-style: none;
+    }
+    .region-item {
+        width: 150%;
+    }
 </style>
