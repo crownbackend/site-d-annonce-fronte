@@ -1,51 +1,213 @@
 <template>
     <div>
-       <h1 class="title is-1">
+       <h1 class="title is-1 container has-text-centered">
            Déposer une annonce
        </h1>
+        <hr>
         <div class="container">
-            <div class="notification">
-              <div class="container">
-                  <h3 class="title is-4">Choisissez la catégorie</h3>
-                  <div class="row">
-                      <div class="col-md-6">
-                          <div v-for="categorie in categories.slice(0, 5)" v-bind:key="categorie.id">
-                              <div class="category" @click="showSubCategory(categorie.id, $event)">
-                                  {{categorie.name}}
-                                  <div :id="'sub_category_'+categorie.id" v-bind:style="{display: show}">
-                                      <div v-for="subcategory in categorie.children" v-bind:key="subcategory.id">
-                                          <div class="sub-category">
-                                              {{subcategory.name}}
+            <div>
+              <div class="">
+
+                  <div class="steps" id="steps_advertisement">
+                      <div class="step-item is-active is-success is-completed">
+                          <div class="step-marker">1</div>
+                          <div class="step-details">
+                              <p class="step-title">Catégroie</p>
+                          </div>
+                      </div>
+                      <div class="step-item is-active is-success">
+                          <div class="step-marker">2</div>
+                          <div class="step-details">
+                              <p class="step-title">Type d'annonce</p>
+                          </div>
+                      </div>
+                      <div class="step-item">
+                          <div class="step-marker">3</div>
+                          <div class="step-details">
+                              <p class="step-title">Dites-nous en plus</p>
+                          </div>
+                      </div>
+                      <div class="step-item">
+                          <div class="step-marker">4</div>
+                          <div class="step-details">
+                              <p class="step-title">Décrivez votre bien !
+                              </p>
+                          </div>
+                      </div>
+                      <div class="step-item">
+                          <div class="step-marker">5</div>
+                          <div class="step-details">
+                              <p class="step-title">Quel est votre prix ?</p>
+                          </div>
+                      </div>
+                      <div class="step-item">
+                          <div class="step-marker">6</div>
+                          <div class="step-details">
+                              <p class="step-title">Ajoutez des photos</p>
+                          </div>
+                      </div>
+                      <div class="step-item">
+                          <div class="step-marker">7</div>
+                          <div class="step-details">
+                              <p class="step-title">Où se situe votre bien ?</p>
+                          </div>
+                      </div>
+                      <div class="step-item">
+                          <div class="step-marker">8</div>
+                          <div class="step-details">
+                              <p class="step-title">Vos coordonnées</p>
+                          </div>
+                      </div>
+                      <div class="steps-content">
+                          <div class="step-content is-active">
+                              <!-- Choices catgéorie -->
+                              <h3 class="title is-4">Choisissez la catégorie</h3>
+                              <div class="field">
+                                  <label class="label" for="search">Nom d'utilisateur</label>
+                                  <p class="control has-icons-left has-icons-right">
+                                      <input class="input" id="search" type="text" v-model="search" placeholder="Que proposez vous aujourd'hui ?">
+                                      <span class="icon is-small is-left">
+                            <i class="fas fa-search"></i>
+                          </span>
+                                  </p>
+                                  <div class="notification" v-if="search">
+                                      <ul class="list-category content-category">
+                                          <li class="category" v-for="category in resultQuery" v-bind:key="category.id">
+                                              {{category.name}}
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div v-for="categorie in categories.slice(0, 5)" v-bind:key="categorie.id">
+                                          <div class="category" :id="'category_'+categorie.id" @click="showSubCategory(categorie.id)">
+                                              {{categorie.name}}
+                                              <i class="fas fa-chevron-down"></i>
+                                          </div>
+                                          <div :id="'sub_category_'+categorie.id" v-bind:style="{display: show}">
+                                              <div v-for="subcategory in categorie.children" v-bind:key="subcategory.id">
+                                                  <div class="sub-category">
+                                                      {{subcategory.name}}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div v-for="categorie in categories.slice(5)" v-bind:key="categorie.id">
+                                          <div class="category" @click="showSubCategory(categorie.id)">
+                                              {{categorie.name}}
+                                              <i class="fas fa-chevron-down"></i>
+                                          </div>
+                                          <div :id="'sub_category_'+categorie.id" v-bind:style="{display: show}">
+                                              <div v-for="subcategory in categorie.children" v-bind:key="subcategory.id">
+                                                  <div class="sub-category">
+                                                      {{subcategory.name}}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <!-- Choices catgéorie -->
+                          </div>
+                          <div class="step-content">
+                              <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                      <label class="label">Firstname</label>
+                                  </div>
+                                  <div class="field-body">
+                                      <div class="field">
+                                          <div class="control">
+                                              <input class="input" name="firstname" id="firstname" type="text" placeholder="Firstname" autofocus data-validate="require">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                      <label class="label">Last name</label>
+                                  </div>
+                                  <div class="field-body">
+                                      <div class="field">
+                                          <div class="control has-icon has-icon-right">
+                                              <input class="input" type="text" name="lastname" id="lastname" placeholder="Last name" data-validate="require">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                      <label class="label">Email</label>
+                                  </div>
+                                  <div class="field-body">
+                                      <div class="field">
+                                          <div class="control has-icon has-icon-right">
+                                              <input class="input" type="email" name="email" id="email" placeholder="Email" data-validate="require">
                                           </div>
                                       </div>
                                   </div>
                               </div>
                           </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div v-for="categorie in categories.slice(5)" v-bind:key="categorie.id">
-                              <div class="category" @click="showSubCategory(categorie.id)">
-                                  {{categorie.name}}
-                                  <div :id="'sub_category_'+categorie.id">
-                                      <div v-for="subcategory in categorie.children" v-bind:key="subcategory.id">
-                                          <div class="sub-category">
-                                              {{subcategory.name}}
+                          <div class="step-content">
+                              <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                      <label class="label">Facebook account</label>
+                                  </div>
+                                  <div class="field-body">
+                                      <div class="field">
+                                          <div class="control">
+                                              <input class="input" name="facebook" id="facebook" type="text" placeholder="Facebook account url" autofocus data-validate="require">
                                           </div>
                                       </div>
                                   </div>
                               </div>
+                              <div class="field is-horizontal">
+                                  <div class="field-label is-normal">
+                                      <label class="label">Twitter account</label>
+                                  </div>
+                                  <div class="field-body">
+                                      <div class="field">
+                                          <div class="control">
+                                              <input class="input" name="twitter" id="twitter" type="text" placeholder="Twitter account url" autofocus data-validate="require">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="step-content">
+                              <h1 class="title is-4">Your account is now created!</h1>
+                          </div>
+                          <div class="step-content">
+                              <h1 class="title is-4">Your account is now created!</h1>
+                          </div>
+                          <div class="step-content">
+                              <h1 class="title is-4">Your account is now created!</h1>
+                          </div>
+                          <div class="step-content">
+                              <h1 class="title is-4">Your account is now created!</h1>
+                          </div>
+                          <div class="step-content">
+                              <h1 class="title is-4">Your account is now created!</h1>
+                          </div>
+                      </div>
+                      <div class="steps-actions">
+                          <div class="steps-action">
+                              <a href="#" data-nav="previous" class="button is-light">Previous</a>
+                          </div>
+                          <div class="steps-action">
+                              <a href="#" data-nav="next" class="button is-light">Next</a>
                           </div>
                       </div>
                   </div>
+
+
               </div>
             </div>
         </div>
     </div>
-<!--    <ul v-for="subcategory in categorie.children" v-bind:key="subcategory.id">-->
-<!--        <li>-->
-<!--            {{subcategory.name}}-->
-<!--        </li>-->
-<!--    </ul>-->
+    
 </template>
 
 <script>
@@ -56,36 +218,71 @@
         data() {
             return {
                 categories: [],
-                show: "none"
+                show: "none",
+                categoriesSearch: null,
+                search: null,
+                resultCategory: [],
             }
         },
         mounted() {
             CategoryApi.getCategories()
             .then(response => {
-                this.categories = response.data
+                this.categories = response.data.categories
+                this.categoriesSearch = response.data.searchResult
             })
             .catch(err => {
                 console.log(err)
             })
         },
         methods: {
-            showSubCategory(id, event) {
-                console.log(id)
-                if(event.currentTarget.children[0].style.display === "block") {
-                    event.currentTarget.children[0].style.display = "none"
+            showSubCategory(id) {
+                let sub_category = document.querySelector("#sub_category_"+id)
+                if(sub_category.style.display === "block") {
+                    sub_category.style.display = "none"
                 } else {
-                    event.currentTarget.children[0].style.display = "block"
+                    sub_category.style.display = "block"
+                }
+            },
+        },
+        computed: {
+            resultQuery() {
+                if(this.search)  {
+                    return this.categoriesSearch.filter((category) => {
+                        return this.search.toLowerCase().split(' ').every(v => category.name.toLowerCase().includes(v))
+                    })
+                } else {
+                    return 'false'
                 }
             }
-        }
+        },
     }
 </script>
 
 <style>
     .sub-category {
         padding-left: 20px;
+        cursor: pointer;
+        padding-bottom: 10px;
+    }
+    .sub-category:hover {
+        color: #00d1b2;
     }
     .category {
         cursor: pointer;
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+    .category:hover {
+        color: #00d1b2;
+    }
+    .content-category {
+        height: 200px;
+        width: auto;
+        overflow: scroll;
+    }
+    .category-selected {
+        width: 100%;
+        height: 50px;
+        border: solid 2px #4a4a4a;
     }
 </style>
