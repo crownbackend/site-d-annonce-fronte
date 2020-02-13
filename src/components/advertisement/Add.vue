@@ -9,57 +9,56 @@
               <div class="">
 
                   <div class="steps" id="steps_advertisement">
-                      <div class="step-item is-active is-success is-completed">
-                          <div class="step-marker">1</div>
-                          <div class="step-details">
-                              <p class="step-title">Catégroie</p>
-                          </div>
-                      </div>
-                      <div class="step-item is-active is-success">
-                          <div class="step-marker">2</div>
-                          <div class="step-details">
-                              <p class="step-title">Type d'annonce</p>
-                          </div>
-                      </div>
-                      <div class="step-item">
+                      <Step name="Catégorie"
+                            number="1"
+                            :isActive="isActive"
+                            :success="success"
+                            :completed="completed" />
+                      <Step name="Type d'annonce"
+                            number="2"
+                            :isActive="isActive"
+                            :success="success"
+                            :completed="completed" />
+
+                      <div class="step-item" id="step3">
                           <div class="step-marker">3</div>
                           <div class="step-details">
                               <p class="step-title">Dites-nous en plus</p>
                           </div>
                       </div>
-                      <div class="step-item">
+                      <div class="step-item" id="step4">
                           <div class="step-marker">4</div>
                           <div class="step-details">
                               <p class="step-title">Décrivez votre bien !
                               </p>
                           </div>
                       </div>
-                      <div class="step-item">
+                      <div class="step-item" id="step5">
                           <div class="step-marker">5</div>
                           <div class="step-details">
                               <p class="step-title">Quel est votre prix ?</p>
                           </div>
                       </div>
-                      <div class="step-item">
+                      <div class="step-item" id="step6">
                           <div class="step-marker">6</div>
                           <div class="step-details">
                               <p class="step-title">Ajoutez des photos</p>
                           </div>
                       </div>
-                      <div class="step-item">
+                      <div class="step-item" id="step7">
                           <div class="step-marker">7</div>
                           <div class="step-details">
                               <p class="step-title">Où se situe votre bien ?</p>
                           </div>
                       </div>
-                      <div class="step-item">
+                      <div class="step-item" id="step8">
                           <div class="step-marker">8</div>
                           <div class="step-details">
                               <p class="step-title">Vos coordonnées</p>
                           </div>
                       </div>
                       <div class="steps-content">
-                          <div class="step-content is-active">
+                          <div id="content_step1" class="step-content is-active" >
                               <!-- Choices catgéorie -->
                               <h3 class="title is-4">Choisissez la catégorie</h3>
                               <div class="field">
@@ -112,7 +111,7 @@
                               </div>
                               <!-- Choices catgéorie -->
                           </div>
-                          <div class="step-content">
+                          <div id="content_step2" class="step-content">
                               <div class="field is-horizontal">
                                   <div class="field-label is-normal">
                                       <label class="label">Firstname</label>
@@ -150,7 +149,7 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="step-content">
+                          <div id="content_step3" class="step-content">
                               <div class="field is-horizontal">
                                   <div class="field-label is-normal">
                                       <label class="label">Facebook account</label>
@@ -176,28 +175,28 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="step-content">
+                          <div id="content_step4" class="step-content">
                               <h1 class="title is-4">Your account is now created!</h1>
                           </div>
-                          <div class="step-content">
+                          <div id="content_step5" class="step-content">
                               <h1 class="title is-4">Your account is now created!</h1>
                           </div>
-                          <div class="step-content">
+                          <div id="content_step6" class="step-content">
                               <h1 class="title is-4">Your account is now created!</h1>
                           </div>
-                          <div class="step-content">
+                          <div id="content_step7" class="step-content">
                               <h1 class="title is-4">Your account is now created!</h1>
                           </div>
-                          <div class="step-content">
+                          <div id="content_step8" class="step-content">
                               <h1 class="title is-4">Your account is now created!</h1>
                           </div>
                       </div>
                       <div class="steps-actions">
                           <div class="steps-action">
-                              <a href="#" data-nav="previous" class="button is-light">Previous</a>
+                              <button data-nav="previous" class="button is-light" :disabled="!button">Précédent</button>
                           </div>
                           <div class="steps-action">
-                              <a href="#" data-nav="next" class="button is-light">Next</a>
+                              <button data-nav="next" class="button is-light" :disabled="!button">Suivant</button>
                           </div>
                       </div>
                   </div>
@@ -212,9 +211,11 @@
 
 <script>
     import CategoryApi from "../../services/CategoryApi";
+    import Step from "./steps/Step";
 
     export default {
         name: "Add",
+        components: {Step},
         data() {
             return {
                 categories: [],
@@ -222,6 +223,10 @@
                 categoriesSearch: null,
                 search: null,
                 resultCategory: [],
+                button: false,
+                isActive: "",
+                success: "",
+                completed: ""
             }
         },
         mounted() {
@@ -233,8 +238,16 @@
             .catch(err => {
                 console.log(err)
             })
+
+            this.isActive = "is-active"
+
         },
         methods: {
+
+            firstStep() {
+
+            },
+
             showSubCategory(id) {
                 let sub_category = document.querySelector("#sub_category_"+id)
                 if(sub_category.style.display === "block") {
@@ -251,7 +264,7 @@
                         return this.search.toLowerCase().split(' ').every(v => category.name.toLowerCase().includes(v))
                     })
                 } else {
-                    return 'false'
+                    return ''
                 }
             }
         },
