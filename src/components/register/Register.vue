@@ -30,7 +30,7 @@
                         <h1 class="title is-3">
                             Vous avez déjà un compte ?
                         </h1>
-                        <router-link to="/connexion" class="subtitle is-5">
+                        <router-link :to="{ name: 'login'}" class="subtitle is-5">
                             Me connecter
                         </router-link>
                     </div>

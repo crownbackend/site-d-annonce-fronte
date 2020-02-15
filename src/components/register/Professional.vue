@@ -425,4 +425,7 @@
     .city:hover {
         background-color: #f4f6f7;
     }
+    #Bloc1 {
+        cursor: pointer;
+    }
 </style>

@@ -13,6 +13,8 @@ const Error404 = () => import("../components/Error404")
 const AddAdvertisement = () => import("../components/advertisement/Add")
 const Login = () => import("../components/security/Login")
 const IndexAdvertisement = () => import("../components/advertisement/Index")
+const ForgotYourPassword = () => import("../components/security/ForgotYourPassword")
+const ConfirmPassword = () => import('../components/security/ConfirmPassword')
 
 Vue.use(VueRouter)
 
@@ -53,6 +55,16 @@ const routes = [
     component: Login
   },
   {
+    path: "/mon-compte/mot-de-de-passe-oublier",
+    name: "forgotPassword",
+    component: ForgotYourPassword
+  },
+  {
+    path: "/mon-compte/mot-de-de-passe-oublier/verification/:token",
+    name:"verifyPassword",
+    component: ConfirmPassword
+  },
+  {
     path: '/register/after-register/verification/:token',
     name: "verifyToken",
     component: ConfirmAccount
@@ -69,7 +81,7 @@ const routes = [
     path: "/annonces/offres/:region",
     name: "indexAdvertisement",
     component: IndexAdvertisement
-  }
+  },
 
 ]
 

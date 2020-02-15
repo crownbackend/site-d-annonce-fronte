@@ -25,9 +25,9 @@
                         </p>
                     </div>
                     <div class="field">
-                        <a href="#">
+                        <router-link :to="{name: 'forgotPassword'}">
                             Mot de passe oublier
-                        </a>
+                        </router-link>
                     </div>
                     <div class="error" v-if="errorMessage">{{errorMessage}}</div>
                     <br>

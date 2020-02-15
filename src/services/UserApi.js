@@ -78,8 +78,19 @@ class UserApi {
         return axios.get(Vue.prototype.$hostName+"/register/confirm/account/"+token)
     }
 
-    infoUser() {
-        return axios.get(Vue.prototype.$hostName+"/user/profile/information")
+    sendNewPassword(email) {
+        this.email = email
+        const formData = new FormData();
+        formData.append("email", email)
+        return axios.post(Vue.prototype.$hostName+"/forgot/password", formData)
+    }
+
+    changePassword(token, password) {
+        this.token = token
+        this.password = password
+        const formData = new FormData();
+        formData.append("password", password)
+        return axios.post(Vue.prototype.$hostName+"/forgot/password/"+token, formData)
     }
 }
 

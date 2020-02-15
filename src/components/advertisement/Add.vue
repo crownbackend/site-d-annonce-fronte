@@ -11,14 +11,15 @@
                   <div class="steps" id="steps_advertisement">
                       <Step name="Catégorie"
                             number="1"
-                            :isActive="isActive"
-                            :success="success"
-                            :completed="completed" />
+                            :isActive="active1"
+                            :success="success1"
+                            :completed="completed1" />
                       <Step name="Type d'annonce"
                             number="2"
-                            :isActive="isActive"
-                            :success="success"
-                            :completed="completed" />
+                            :isActive="active2"
+                            :success="success2"
+                            :completed="completed2"
+                            />
 
                       <div class="step-item" id="step3">
                           <div class="step-marker">3</div>
@@ -58,7 +59,7 @@
                           </div>
                       </div>
                       <div class="steps-content">
-                          <div id="content_step1" class="step-content is-active" >
+                          <div id="content_step1" class="step-content" v-bind:class="[active1]" >
                               <!-- Choices catgéorie -->
                               <h3 class="title is-4">Choisissez la catégorie</h3>
                               <div class="field">
@@ -71,7 +72,7 @@
                                   </p>
                                   <div class="notification" v-if="search">
                                       <ul class="list-category content-category">
-                                          <li class="category" v-for="category in resultQuery" v-bind:key="category.id">
+                                          <li class="category" v-for="category in resultQuery" @click="firstStep" v-bind:key="category.id">
                                               {{category.name}}
                                           </li>
                                       </ul>
@@ -86,7 +87,7 @@
                                           </div>
                                           <div :id="'sub_category_'+categorie.id" v-bind:style="{display: show}">
                                               <div v-for="subcategory in categorie.children" v-bind:key="subcategory.id">
-                                                  <div class="sub-category">
+                                                  <div class="sub-category" @click="firstStep">
                                                       {{subcategory.name}}
                                                   </div>
                                               </div>
@@ -111,7 +112,7 @@
                               </div>
                               <!-- Choices catgéorie -->
                           </div>
-                          <div id="content_step2" class="step-content">
+                          <div id="content_step2" class="step-content" v-bind:class="[active2]">
                               <div class="field is-horizontal">
                                   <div class="field-label is-normal">
                                       <label class="label">Firstname</label>
@@ -224,9 +225,12 @@
                 search: null,
                 resultCategory: [],
                 button: false,
-                isActive: "",
-                success: "",
-                completed: ""
+                active1: "",
+                success1: "",
+                completed1: "",
+                active2: "",
+                success2: "",
+                completed2: "",
             }
         },
         mounted() {
@@ -239,13 +243,16 @@
                 console.log(err)
             })
 
-            this.isActive = "is-active"
+            this.active1 = "is-active"
 
         },
         methods: {
 
             firstStep() {
-
+                this.success1 = "is-success"
+                this.completed1 = "is-completed"
+                this.active1 = ""
+                this.active2 = "is-active"
             },
 
             showSubCategory(id) {
