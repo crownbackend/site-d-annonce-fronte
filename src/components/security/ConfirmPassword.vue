@@ -1,6 +1,5 @@
 <template>
     <div class="container notification">
-        {{this.$route.params}}
         <div v-if="formEmpty">
             <h1 class="title is-1 has-text-centered">Modifier mon mot de passe</h1>
             <form method="post" @submit.prevent="sendForm">
@@ -20,6 +19,21 @@
                 </div>
             </form>
         </div>
+        <div v-if="afterSuccess">
+            <p class="subtitle is-3">
+                Votre mot de passe à été changer avec success.
+                <br>
+                Vous pouvez vous maintenant vous connecté <router-link :to="{name: 'login'}">juste ici</router-link>
+            </p>
+        </div>
+        <div v-if="afterError">
+            <p class="subtitle is-3">
+                Une erreur est survenu lors de votre changement de mot de passe <br>
+                <router-link :to="{name: 'forgotPassword'}">
+                    Cliquer ici
+                </router-link> pour renvoyer un email et changer votre mot de passe
+            </p>
+        </div>
     </div>
 </template>
 
@@ -31,6 +45,7 @@
         data() {
             return {
                 afterSuccess: false,
+                afterError: false,
                 formEmpty: true,
                 disabled: true,
                 clickable: "no-click is-disabled",
@@ -60,8 +75,10 @@
                     console.log(response)
                     if(response.data.success === 1) {
                         this.afterSuccess = true
+                        this.formEmpty = false
                     } else if(response.data.error === 0) {
-                        this.error
+                        this.formEmpty = false
+                        this.afterError = true
                     }
                 })
                 .catch(err => {
