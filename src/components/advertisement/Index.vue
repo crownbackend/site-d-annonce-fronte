@@ -6,6 +6,9 @@
 
 <script>
     export default {
-        name: "Index"
+        name: "Index",
+        mounted() {
+            document.title = this.$route.params.region
+        }
     }
 </script>

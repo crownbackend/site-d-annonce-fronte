@@ -22,59 +22,90 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Index
+    component: Index,
+    meta: {
+      title: "Accueil"
+    }
   },
   {
     path: "*",
     name: "error404",
-    component: Error404
+    component: Error404,
+    meta: {
+      title: "Erreur 404"
+    }
   },
   {
     path: '/inscription',
     name: "register",
-    component: Register
+    component: Register,
+    meta: {
+      title: "Inscription"
+    }
   },
   {
     path: '/inscription/partuclier',
     name: "particular",
-    component: Particular
+    component: Particular,
+    meta: {
+      title: "Particulier, Création de compte"
+    }
   },
   {
     path: '/inscription/professionnelle',
     name: "professional",
     component: Professional,
+    meta: {
+      title: "Professionnels, Création de compte"
+    }
   },
   {
     path: '/inscription/success',
     name: "successRegister",
     component: RegisterSuccess,
+    meta: {
+      title: "Inscription réussie"
+    }
   },
   {
     path: '/mon-compte/connexion',
     name: "login",
-    component: Login
+    component: Login,
+    meta: {
+      title: "Connexion"
+    }
   },
   {
     path: "/mon-compte/mot-de-de-passe-oublier",
     name: "forgotPassword",
-    component: ForgotYourPassword
+    component: ForgotYourPassword,
+    meta: {
+      title: "Mot de passe oublié"
+    }
   },
   {
     path: "/mon-compte/mot-de-de-passe-oublier/verification/:token",
     name:"verifyPassword",
-    component: ConfirmPassword
+    component: ConfirmPassword,
+    meta: {
+      title: "Récupération de mot de passe"
+    }
   },
   {
     path: '/register/after-register/verification/:token',
     name: "verifyToken",
-    component: ConfirmAccount
+    component: ConfirmAccount,
+    meta: {
+      title: "Confirmation de votre compte"
+    }
   },
   {
     path: '/annonces/ajouter-une-nouvelle-annonce',
     name: "addAdvertisement",
     component: AddAdvertisement,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      title: "Ajouter votre annonce"
     }
   },
   {
@@ -91,6 +122,7 @@ const router = new VueRouter({
   routes,
 })
 
+// check token is valid
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     AuthUser.verifyToken()
@@ -114,6 +146,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+// change title document
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
 })
 
 export default router
