@@ -71,44 +71,62 @@
                     <div class="col-md-6">
                         <div class="field">
                             <span class="tag">Vous vendez</span>
-                            <input class="is-checkradio is-rtl" id="offer" type="radio" v-model="type" value="1" name="exampleRtlRadioInline" checked="checked">
+                            <input class="is-checkradio is-rtl" id="offer" type="radio" v-model="type" value="1" name="type" checked="checked">
                             <label for="offer">Offre</label>
-                            <input class="is-checkradio is-rtl" id="demand" type="radio" v-model="type" value="2" name="exampleRtlRadioInline">
+                            <input class="is-checkradio is-rtl" id="demand" type="radio" v-model="type" value="2" name="type">
                             <label for="demand">Demande</label>
                             <span class="tag">Vous recherchez</span>
                         </div>
                     </div>
                 </div>
                 <br>
-                <button class="button is-primary" style="float: right">
+                <button class="button is-primary" @click="afterSelectType" style="float: right">
                     Suivant
                 </button>
             </div>
             <!-- Type category -->
 
-            <!-- Form vehicle -->
-            <div v-if="typeCategory == 2">
-                <div v-if="subTypeCategory == 1">
-                    Voiture
-                </div>
+            <div v-if="categoryAfterType">
+                <!-- Form vehicle -->
+                <div v-if="typeCategory == 2">
+                    <div v-if="subTypeCategory == 1">
+                        Voiture
+                    </div>
 
-                <div v-if="subTypeCategory == 2">
-                    Moto
-                </div>
+                    <div v-if="subTypeCategory == 2">
+                        Moto
+                    </div>
 
-                <div v-if="subTypeCategory == 3">
-                    Caravaning
-                </div>
+                    <div v-if="subTypeCategory == 3">
+                        Caravaning
+                    </div>
 
-                <div v-if="subTypeCategory == 4">
-                    Utilitaires
-                </div>
+                    <div v-if="subTypeCategory == 4">
+                        Utilitaires
+                    </div>
 
-                <div v-if="subTypeCategory == 5">
-                    Nautisme
+                    <div v-if="subTypeCategory == 5">
+                        Nautisme
+                    </div>
                 </div>
+                <!-- Form vehicle -->
             </div>
-            <!-- Form vehicle -->
+
+            <div v-if="adDemand">
+                <form method="post">
+                    <h3 class="title is-3">Décrivez votre demande !</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="field">
+                                <div class="control">
+                                    <label for="title">Titre de l'annonce</label>
+                                    <input class="input" type="text" id="title">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     
@@ -131,6 +149,10 @@
                 choiceCategory: true,
                 categorySelected: "",
                 typeCategoryForm: null,
+                categoryAfterType: false,
+                adDemand: false,
+                cursorType: "",
+                disabledType: true
             }
         },
         mounted() {
@@ -167,6 +189,20 @@
             returnListCategory() {
                 this.typeCategoryForm = false
                 this.choiceCategory = true
+                this.adDemand = false
+                this.categoryAfterType = false
+            },
+
+            afterSelectType()
+            {
+                if(this.type == 2) {
+                    this.adDemand = true
+                    this.typeCategoryForm = false
+                } else if(this.type == 1) {
+                    this.categoryAfterType = true
+                    this.adDemand = false
+                    this.typeCategoryForm = false
+                }
             }
 
 
@@ -211,5 +247,8 @@
         width: 50%;
         height: 50%;
         cursor: pointer;
+    }
+    .cursor-auto {
+        cursor: auto;
     }
 </style>

@@ -10,22 +10,22 @@
 </template>
 
 <style lang="scss">
-@import "~bootstrap/scss/bootstrap-grid";
-@import "~bulma/css/bulma.min.css";
-@import "~bulma-extensions/dist/css/bulma-extensions.min.css";
-.Site {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
+  @import "~bootstrap/scss/bootstrap-grid";
+  @import "~bulma/css/bulma.min.css";
+  @import "~bulma-extensions/dist/css/bulma-extensions.min.css";
+  .Site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
 
-.Site-content {
-  flex: 1;
-}
+  .Site-content {
+    flex: 1;
+  }
 
-.space-top {
-  padding-top: 50px;
-}
+  .space-top {
+    padding-top: 50px;
+  }
 
   .error {
     padding: 0.8rem;
@@ -36,6 +36,7 @@
     border-radius: 4px;
     color: #fff;
   }
+
 </style>
 <script>
   import Vue from "vue"
